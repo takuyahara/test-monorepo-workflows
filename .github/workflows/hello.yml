@@ -1,0 +1,22 @@
+name: hello
+
+on:
+  push:
+    tags:
+      - "hello@*.*.*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          cd hello
+          ./build.sh
+      - uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: hello/hello.txt
+          asset_name: hello.txt
+          tag: ${{ github.ref }}
