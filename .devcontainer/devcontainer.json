@@ -1,0 +1,13 @@
+{
+	"name": "test-monorepo-workflows",
+	"image": "mcr.microsoft.com/devcontainers/base:jammy",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"esbenp.prettier-vscode",
+				"github.vscode-github-actions"
+			]
+		}
+	},
+	"postCreateCommand": "/bin/sh .devcontainer/postCreateCommand.sh"
+}
