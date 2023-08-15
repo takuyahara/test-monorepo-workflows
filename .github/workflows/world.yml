@@ -1,0 +1,22 @@
+name: world
+
+on:
+  push:
+    tags:
+      - "world@*.*.*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          cd world
+          ./build.sh
+      - uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: world/world.txt
+          asset_name: world.txt
+          tag: ${{ github.ref }}
