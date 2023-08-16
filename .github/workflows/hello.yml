@@ -18,7 +18,7 @@ jobs:
       - name: Build hello
         run: |
           cd hello
-          ./build.sh ${{ github.ref }}
+          ./build.sh
       - name: Release hello if this action is not called by root.yml
         if: inputs.is_root == false
         uses: svenstaro/upload-release-action@v2
