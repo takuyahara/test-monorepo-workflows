@@ -9,6 +9,11 @@ _is-release-branch:
 	fi
 
 .SILENT:
+.PHONY: _version-file
+_version-file: _is-release-branch
+	echo $(VERSION) > VERSION
+
+.SILENT:
 .PHONY: _version-readme
 _version-readme: _is-release-branch
 	sed -i -E 's/(https\:\/\/img\.shields\.io\/badge\/version\-)([0-9]+\.[0-9]+\.[0-9]+)/\1$(VERSION)/g' ./README.md
@@ -16,5 +21,5 @@ _version-readme: _is-release-branch
 
 .SILENT:
 .PHONY: version
-version: _version-readme
+version: _version-file _version-readme
 	echo Current version: $(VERSION)
