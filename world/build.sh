@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "world" > world.txt
+echo "${1}" > world.txt
