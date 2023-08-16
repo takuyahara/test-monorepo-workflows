@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "hello" > hello.txt
+echo "${1}" > hello.txt
