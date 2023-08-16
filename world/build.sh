@@ -1,2 +1,3 @@
 #!/bin/bash
-echo "${1}" > world.txt
+version=$(cat VERSION)
+echo "${version}" > world.txt
