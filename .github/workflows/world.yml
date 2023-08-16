@@ -4,6 +4,10 @@ on:
   push:
     tags:
       - "world@*.*.*"
+  workflow_call:
+    inputs:
+      is_root:
+        type: boolean
 
 jobs:
   build:
@@ -11,12 +15,21 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v3
-      - run: |
+      - name: Build world
+        run: |
           cd world
           ./build.sh
-      - uses: svenstaro/upload-release-action@v2
+      - name: Release world if this action is not called by root.yml
+        if: inputs.is_root == false
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: world/world.txt
           asset_name: world.txt
           tag: ${{ github.ref }}
+      - name: Upload artifact if this action is called by root.yml
+        if: inputs.is_root == true
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: world/world.txt

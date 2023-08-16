@@ -1,0 +1,35 @@
+name: root
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+jobs:
+  build_hello:
+    uses: ./.github/workflows/hello.yml
+    with:
+      is_root: true
+  build_world:
+    uses: ./.github/workflows/world.yml
+    with:
+      is_root: true
+  zip:
+    needs: [build_hello, build_world]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: artifacts
+      - name: zip files
+        run: |
+          mkdir hello_world
+          cp hello.txt hello_world
+          cp world.txt hello_world
+          zip -r hello_world.zip hello_world
+      - name: Add zip files to releases
+        uses: softprops/action-gh-release@v1
+        with:
+          files: hello_world.zip
